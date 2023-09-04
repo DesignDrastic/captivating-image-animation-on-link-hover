@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Design Drastic::Link Image Animation on Hover</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;700;800;900&display=swap" rel="stylesheet"> 
+</head>
+<body>
+  <!-- List item -->
+  <ul class="list">
+    <li><a dd-portfolio="project1" href="javascript:;">Garage</a></li>
+    <li><a dd-portfolio="project2" href="javascript:;">Event Planner</a></li>
+    <li><a dd-portfolio="project3" href="javascript:;">Restaurent</a></li>
+    <li><a dd-portfolio="project4" href="javascript:;">Decorations</a></li>
+    <li><a dd-portfolio="project5" href="javascript:;">Healthcare</a></li>
+  </ul>
+  <!-- Floater div -->
+  <div class="floater dn" id="floater">
+    <img id="project1" src="images/pexels-mike-190537.jpg">
+    <img id="project2" src="images/pexels-alex-andrews-1983046.jpg">
+    <img id="project3" src="images/pexels-chan-walrus-941861.jpg">
+    <img id="project4" src="images/pexels-fox-750843.jpg">
+    <img id="project5" src="images/pexels-miguel-á-padriñán-3936358.jpg">
+  </div>
+  <script>
+    // Create floater const
+    const floater = document.getElementById('floater');
+    // Get floater width & height
+    const floater_width = floater.clientWidth
+    const floater_height = floater.clientHeight
+    // Fetch all the portfolio images.
+    const portfolio_images = document.querySelectorAll('#floater img');
+    // List of the items.
+    const list_items = document.querySelectorAll('.list li a');
+    list_items.forEach((item) => {
+      // Mouse move event
+      item.addEventListener('mousemove', fnMouseMove);
+      // Mouse leave event.
+      item.addEventListener('mouseleave', fnMouseOut);
+    });
+    // Declate initial x,y pos at 0,0
+    let x =0, y=0;
+    // To detect the first mouse move.
+    let first_move = false;
+    // Get window half size(to change the animation direction).
+    let half_win_size = window.innerWidth / 2;
+    function fnMouseMove(e) {
+      if( !first_move ) {
+        // Remove display none on first mouse move.
+        floater.classList.remove('dn');
+        first_move = true;
+      }
+      // Get x,y mouse co-ordinates
+      x = e.clientX || e.pageX;
+      y = e.clientY || e.pageY;
+      // X direction animation/pos
+      let x_dir = x / window.innerWidth;
+      let portfolio_attr = this.getAttribute('dd-portfolio');
+      // Animate image on x axis
+      ( x > half_win_size ? x_dir = -(x_dir*5) : x_dir = (  ( 1 - x_dir)*5) );
+      floater.style.transform = "perspective(400px) rotateY("+(x_dir)+"deg)";
+      // Activate the current hovered portfolio/image
+      let current_portfolio = document.getElementById(portfolio_attr);
+      portfolio_images.forEach(image => {
+        image.classList.remove('active');
+      });
+      current_portfolio.classList.add('active');
+      floater.style.opacity = 1;
+      // Floater div animation
+      floater.style.top = (y - ( floater_height / 2 ))+'px';
+      floater.style.left = (x - ( floater_width / 2))+'px';
+    }
+    // Mouse leave function
+    function fnMouseOut(e) {
+      // Remove the animation.
+      portfolio_images.forEach(image => {
+        image.classList.remove('active');
+      });
+    }
+  </script>
+</body>
+</html>

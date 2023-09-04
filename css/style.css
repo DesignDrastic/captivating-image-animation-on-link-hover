@@ -1,0 +1,68 @@
+:root {
+  --font: 'Poppins', sans-serif;
+  --floater_width: 700px;
+  --floater_height: 400px;
+  --transition: all .75s;
+}
+body {
+  background-color: #000000;
+}
+/* List items */
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.list li {
+  display: flex;
+}
+.list li a {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  border-bottom: 1px solid rgba(255, 255, 255, .25);
+  outline: none;
+  padding: 2rem;
+  font-family: var(--font);
+  font-weight: 900;
+  font-size: 5rem;
+  text-decoration: none;
+  color: transparent;
+  transition: var(--transition);
+  -webkit-text-stroke: 2px #fff;
+}
+.list li a:hover {
+  color: #fff;
+  -webkit-text-stroke: 2px transparent;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, .25);
+}
+/* Floater div */
+.floater.dn {
+  visibility: hidden;
+  opacity: 0;
+}
+.floater {
+  position: fixed;
+  display: inline-block;
+  width: var(--floater_width);
+  height: var(--floater_height);
+  visibility: visible;
+  opacity: 1;
+  z-index: -1;
+  transition: var(--transition) cubic-bezier(0,.2,.6,1);
+}
+/* Portfolio Image */
+.floater img {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  filter: blur(0px) hue-rotate(180deg);
+  transition: var(--transition);
+}
+.floater img.active {
+  opacity: 1;
+  filter: blur(0) hue-rotate(0);
+  box-shadow: none;
+}
